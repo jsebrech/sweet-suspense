@@ -13,7 +13,7 @@ class ErrorMessage extends HTMLElement {
     
     update() {
         const errorMsg = this.getAttribute('error') || '';
-        this.innerHTML = `<p>${errorMsg}</p>`;
+        this.textContent = errorMsg;
     }
 }
 
