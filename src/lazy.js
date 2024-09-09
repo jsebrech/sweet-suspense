@@ -55,7 +55,7 @@ class Lazy extends HTMLElement {
         }
         // dynamically import, then register if not yet registered
         return import(new URL(url, document.location)).then(module => 
-            !customElements.get(name) && module && module.default());
+            !customElements.get(element.localName) && module && module.default());
     }
 }
 
