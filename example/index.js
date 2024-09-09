@@ -45,6 +45,7 @@ customElements.define('x-demo', class extends HTMLElement {
             this.querySelector('x-error-boundary').addEventListener('error', _ => {
                 resetBtn.removeAttribute('disabled');
             });
+            loadBtn.setAttribute('disabled', true);
         };
     }
 
