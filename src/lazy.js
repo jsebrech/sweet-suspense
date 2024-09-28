@@ -14,18 +14,33 @@ import { Suspense } from './suspense.js';
  * 
  * Put the lazy-path attribute on a custom element to specify the path to the JS file to load.
  * 
+ * To only load when the lazy element becomes visible in the viewport, use the intersecting attribute:
+ * <x-lazy intersecting><x-load-on-demand></x-load-on-demand></x-lazy>
+ * 
  * @license MIT
  */
 class Lazy extends HTMLElement {
     connectedCallback() {
-        this.style.display = 'contents';
-        this.#loadLazy();
+        if (this.hasAttribute('intersecting')) {
+            const observer = new IntersectionObserver((entries) => {
+                entries = entries.filter(entry => entry.isIntersecting);
+                if (entries.length) {
+                    observer.disconnect();
+                    this.#loadLazy();
+                }
+            });
+            observer.observe(this);
+        } else {
+            this.#loadLazy();
+        }
     }
 
     /**
      * Find direct child custom elements that need loading, then load them
      */
     #loadLazy() {
+        // lazy should not take part in layout once it starts loading
+        this.style.display = 'contents';
         const elements = 
             [...this.children].filter(_ => _.localName.includes('-'));
         const unregistered = 

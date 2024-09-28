@@ -124,6 +124,14 @@ Note that:
 - To use the error's text inside the slot's content, make a custom element that will show the error and accepts an `error` property
   or an `error` attribute. (See the example code for more details.)
 
+### Intersecting
+
+To only lazy-load the component when it is scrolled into view, add the `intersecting` attribute:
+
+```html
+<x-lazy intersecting><x-on-demand></x-on-demand></x-lazy>
+```
+
 ## Example
 
 Run a static server:
