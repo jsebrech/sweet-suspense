@@ -40,7 +40,7 @@ This will load the `<x-on-demand>` custom element if it doesn't exist yet by:
 
 1. Importing the ESM module `./components/on-demand/on-demand.js`
    (the path and filename is derived by convention from the custom element's name, and relative to the current document)
-2. Running the default export (function) of that module to register the element
+2. Optionally: running the default export function of that module to register the element
 
 To override the path that it loads from, set the root attribute:
 
@@ -60,6 +60,27 @@ Note that:
   and only if they are custom elements that are not yet registered
 - To show a loading screen, put the `<x-lazy>` somewhere inside an `<x-suspense>` (see below)
 - To show an error if loading fails, wrap that suspense in an error boundary (see below)
+
+### Lazy components
+
+A component loaded using `<lazy>` should use one of these patterns:
+
+```js
+customElements.define('x-my-component', class extends HTMLElement { 
+  ... 
+})
+```
+
+or
+
+```js
+class MyComponent extends HTMLElement {
+  ...
+}
+export default function register() {
+  customElements.define('x-my-component', MyComponent);
+}
+```
 
 ### Suspense
 
@@ -112,3 +133,4 @@ Run a static server:
 Browse to http://localhost:8080/example/index.html
 
 See the code in the `example/` folder.
+

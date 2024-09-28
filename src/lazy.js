@@ -54,8 +54,13 @@ class Lazy extends HTMLElement {
             url = `${rootDir}${cleanName}/${cleanName}.js`;
         }
         // dynamically import, then register if not yet registered
-        return import(new URL(url, document.location)).then(module => 
-            !customElements.get(element.localName) && module && module.default());
+        return import(new URL(url, document.location)).then(module => {
+            if (!customElements.get(element.localName)) {
+                if (module && (typeof module.default === 'function')) {
+                    return module.default();
+                }
+            }
+        });
     }
 }
 
